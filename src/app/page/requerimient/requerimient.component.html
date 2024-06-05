@@ -1,0 +1,23 @@
+
+
+<div class="card">
+    <div class="card-body">
+  
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Historial de Requerimientos</h4>
+              <p></p>
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-outline-info btn-group-lg btn-sm" (click)="open()">Nuevo <i
+                    class="fas fa-plus"></i>
+                </button>
+              </div>
+              <app-list-requerimient (update)="isUpdate($event)"></app-list-requerimient>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

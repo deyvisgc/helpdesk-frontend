@@ -1,0 +1,6 @@
+export enum RoleEnum {
+    SOLICITANTE = 'SOLICITANTE',
+    COORDINADOR = 'COORDINADOR',
+    ANALISTA = 'ANALISTA',
+    JEFEAREA = 'JEFEAREA'
+}

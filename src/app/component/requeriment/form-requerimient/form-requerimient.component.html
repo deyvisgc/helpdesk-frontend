@@ -1,0 +1,140 @@
+<div class="modal-header" *ngIf="titulo">
+    <h4 class="modal-title" id="modal-basic-title">{{titulo}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="getDismissReason(0)"></button>
+</div>
+<div class="modal-body" *ngIf="titulo">
+    <form [formGroup]="formGrupRequeriment" (ngSubmit)="onSubmit()" class="space-y-3" *ngIf="!isAsigna">
+        <div class="container mt-1">
+            <div class="row">
+                <div class="col-md-6 mb-6 mt-3">
+                    <div class="form-group">
+                        <label for="exampleInputName">Nombre Solicitante</label>
+                        <input type="text" formControlName="nombre" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted() && f.controls['nombre'].errors }" id="nombre" />
+                        <div *ngIf="submitted() && f.controls['nombre'].errors" class="invalid-feedback">
+                            <div *ngIf="f.controls['nombre'].errors?.['required']">Nombre solicitante es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-6 mt-3">
+                    <div class="form-group">
+                        <label for="exampleInputName">Apellido Solicitante</label>
+                        <input type="text" formControlName="apellidos" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted() && f.controls['apellidos'].errors }"
+                            id="apellidos" />
+                        <div *ngIf="submitted() && f.controls['apellidos'].errors" class="invalid-feedback">
+                            <div *ngIf="f.controls['apellidos'].errors?.['required']">Apellido solicitante es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-6 mt-3">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Area</label>
+                        <div class="custom-dropdown-container">
+                            <ng-select
+                                [ngClass]="{ 'is-invalid': submitted() && formGrupRequeriment.get('area')?.invalid }"
+                                [items]="area" bindLabel="area_name" formControlName="area"
+                                placeholder="Seleccionar Categoria" bindValue="area_name">
+                            </ng-select>
+                            <div *ngIf="submitted() && formGrupRequeriment.get('area')?.invalid"
+                                class="invalid-feedback">
+                                <div *ngIf="formGrupRequeriment.get('area')?.invalid">Area es requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-6 mt-3">
+                    <div class="form-group">
+                        <label for="exampleInputName">Titulo Solicitud</label>
+                        <input type="text" formControlName="nombre_solicitud" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted() && f.controls['nombre_solicitud'].errors }"
+                            id="nombre_solicitud" />
+                        <div *ngIf="submitted() && f.controls['nombre_solicitud'].errors" class="invalid-feedback">
+                            <div *ngIf="f.controls['nombre_solicitud'].errors?.['required']">Titulo de la solicitud es
+                                requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-6 mt-3">
+                    <div class="form-group">
+                        <label for="customFile">Adjuntar Anexo Solicitud</label>
+
+                        <!-- <input class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted() && f.controls['file'].errors }"
+                             type="file" id="formFile" (change)="onFileSelected($event)"> <br> -->
+                             <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)"> <br>
+                            <pre *ngIf="idRequerimiento > 0">{{ fileShow }}</pre>
+                        <!-- <div *ngIf="submitted() && f.controls['file'].errors" class="invalid-feedback">
+                            <div *ngIf="f.controls['file'].errors?.['required']">Anexo de la solicitud es requerido
+                            </div>
+                        </div> -->
+
+
+                    </div>
+                </div>
+                <div class="col-md-6 mb-6 mt-3">
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Descripciòn Solicitud</label>
+                        <textarea [ngClass]="{ 'is-invalid': submitted() && f.controls['descripcion'].errors }"
+                            formControlName="descripcion" class="form-control" id="exampleFormControlTextarea1"
+                            rows="3"></textarea>
+                        <div *ngIf="submitted() && f.controls['descripcion'].errors" class="invalid-feedback">
+                            <div *ngIf="f.controls['descripcion'].errors?.['required']">Descripcion de la solicitud es
+                                requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div class="form-group d-flex justify-content-end">
+            <button type="submit" class="btn btn-outline-info rounded">
+                <span *ngIf="!isLoading()">Guardar</span>
+                <i *ngIf="isLoading()" class="fas fa-spinner fa-pulse fa-2x"></i>
+            </button>
+        </div>
+    </form>
+    <form [formGroup]="formGrupAsignarRequeriment" (ngSubmit)="asignar()" class="space-y-3" *ngIf="isAsigna">
+        <div class="container mt-1">
+            <div class="row">
+
+                <div class="col-md-6 mb-6 mt-3">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Analista TI</label>
+                        <div class="custom-dropdown-container">
+                            <ng-select [ngClass]="{ 'is-invalid': submitted() && formGrupAsignarRequeriment.get('asignadoId')?.invalid }"
+                                [items]="lsAnalista" bindLabel="nombre" formControlName="asignadoId" placeholder="Seleccionar Analista" bindValue="usuarioId">
+                                <ng-template ng-option-tmp let-item="item">
+                                    {{ item.nombre + ' ' + item.apellidos }}
+                                </ng-template>
+                            </ng-select>
+                            <div *ngIf="submitted() && formGrupAsignarRequeriment.get('asignadoId')?.invalid"
+                                class="invalid-feedback">
+                                <div *ngIf="formGrupAsignarRequeriment.get('asignadoId')?.invalid">Analista es requerido para asignar requerimiento
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-6 mt-3">
+                    <div class="form-group">
+                        <label for="exampleInputName">Titulo Requerimiento</label> 
+                        <input class="form-control" [value]="titleRequerimiento"  type="text" readonly />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div class="form-group d-flex justify-content-end">
+            <button type="submit" class="btn btn-outline-info rounded">
+                <span *ngIf="!isLoading()">Asignar</span>
+                <i *ngIf="isLoading()" class="fas fa-spinner fa-pulse fa-2x"></i>
+            </button>
+        </div>
+    </form>
+</div>

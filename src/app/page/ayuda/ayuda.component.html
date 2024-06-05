@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Historial de Ayuda</h4>
+                        <p></p>
+                        <div>
+                            <div class="row">
+
+                                <div class="col-md-6 mb-6 mt-3">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Seleccionar Requerimiento</label>
+                                        <div class="custom-dropdown-container">
+                                            <ng-select (change)="changeRequeriment($event)" [items]="listRequerimientos" bindLabel="nombre_solicitud"
+                                                placeholder="Seleccionar Analista" bindValue="requerimiento_id">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p></p>
+                            <app-descripconcomponent [descripcion]="descripcion"></app-descripconcomponent>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

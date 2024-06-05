@@ -1,0 +1,81 @@
+<div class="d-flex justify-content-between" style="margin-top: 50px;">
+    <div class="form-group">
+        <input type="text" class="form-control" [(ngModel)]="textSearch" id="name" placeholder="Buscar" />
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table align-middle text-nowrap">
+        <thead>
+            <tr>
+                <th class="text-dark font-medium fs-4">Requerimiento</th>
+                <th class="text-dark font-medium fs-4">Analista</th>
+                <th class="text-dark font-medium fs-4">Tiempo Estimado</th>
+                <th class="text-dark font-medium fs-4">Numero de P.</th>
+                <th class="text-dark font-medium fs-4">Fecha Envio</th>
+                <th class="text-dark font-medium fs-4">Epicas</th>
+                <th class="text-dark font-medium fs-4">Historia de Usuario</th>
+                <th class="text-dark font-medium fs-4">Texo Propuesta</th>
+                <th class="text-dark font-medium fs-4">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngIf=" list| search : textSearch as result">
+                <tr *ngFor="let item of result | search:textSearch; let i = index">
+                    <td class="fs-4">{{item?.requirement?.nombre_solicitud}}</td>
+                    <td class="fs-4">{{item?.analista?.nombre}} {{item?.analista?.apellidos}}</td>
+                    <td class="fs-4">{{item?.estimacionTiempo}}</td>
+                    <td class="fs-4">{{item?.numeroProgramadores}}</td>
+                    <td class="fs-4">{{item?.fechaEnvio | date: 'dd-MM-yyyy' }}</td>
+                    <td class="fs-4">
+                        <button type="button" ngbTooltip="Ver Epicas" (click)="verEpicas(item)"
+                            class="btn w-sm btn-sm btn-outline-success"><i class="fa-solid fa-eye"></i>
+                        </button>
+                    </td>
+                    <td class="fs-4">
+                        <button type="button" ngbTooltip="Ver Historias de Usuario" (click)="verHistoria(item)"
+                            class="btn w-sm btn-sm btn-outline-info"><i class="fa-solid fa-eye"></i>
+                        </button>
+                    </td>
+                    <td class="fs-4">{{item?.textoPropuesta}}</td>
+                    <td class="fs-4">
+                        <button *ngIf="item.estado === 'EN_PROGRESO'" type="button"
+                            class="btn d-flex btn-light-danger d-block text-danger font-medium">
+                            EN PROCESO
+                        </button>
+                        <button *ngIf="item.estado === 'APROBADO'" type="button"
+                            class="btn d-flex btn-light-primary d-block text-primary font-medium">
+                            APROBADO
+                        </button>
+                        <button *ngIf="item.estado === 'RECHAZADO'" type="button"
+                            class="btn d-flex btn-light-danger d-block text-danger font-medium">
+                            RECHAZADO
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" ngbTooltip="Autorizar" [disabled]="(item.estado === 'APROBADO') || (item.estado === 'RECHAZADO')" 
+                            style="margin-left: 10px;" (click)="tomarDecicion(item.propuestaId, 'Autorizar')"
+                            class="btn btn-outline-info w-sm btn-sm">
+                            <i class="fas fa-check"></i>
+                        </button>
+
+                        <button type="button" ngbTooltip="Rechazar Propuesta" [disabled]="(item.estado === 'APROBADO') || (item.estado === 'RECHAZADO')" 
+                            style="margin-left: 10px;" (click)="tomarDecicion(item.propuestaId, 'Rechazar')"
+                            class="btn btn-outline-danger w-sm btn-sm">
+                            <i class="fas fa-ban"></i>
+                        </button>
+
+                        <!-- <button type="button" ngbTooltip="Elimminar Propuesta" (click)="eliminar(item.propuestaId)"
+                            [disabled]="(item.estado === 'APROBADO') || (item.estado === 'RECHAZADO')" style="margin-left: 10px;"
+                            class="btn w-sm btn-sm btn-outline-danger" style="margin-left: 5px">
+                            <span><i class="fas fa-trash"></i></span>
+                        </button> -->
+                    </td>
+                </tr>
+
+            </ng-container>
+        </tbody>
+    </table>
+    <!-- <app-pagination [totalItems]="totalElements" [pageSize]="pageSize" [currentPage]="pageNumber"
+        (pageChange)="onPageChange($event)">
+    </app-pagination> -->
+</div>

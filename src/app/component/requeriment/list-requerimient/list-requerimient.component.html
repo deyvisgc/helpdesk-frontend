@@ -1,0 +1,79 @@
+<div class="d-flex justify-content-between" style="margin-top: 50px;">
+    <div class="form-group">
+        <input type="text" class="form-control" [(ngModel)]="textSearch" id="name" placeholder="Buscar" />
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table align-middle text-nowrap">
+        <thead>
+            <tr>
+                <th class="text-dark font-medium fs-4">Solicitante</th>
+                <th class="text-dark font-medium fs-4">Nombre Solicitud</th>
+                <th class="text-dark font-medium fs-4">Analista Asignado</th>
+                <th class="text-dark font-medium fs-4">Anexo</th>
+                <th class="text-dark font-medium fs-4">Descripciòn</th>
+                <th class="text-dark font-medium fs-4">Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngIf=" list| search : textSearch as result">
+                <tr *ngFor="let item of result | search:textSearch; let i = index">
+                    <td class="fs-4">{{item?.solicitante?.nombre}} {{item?.solicitante?.apellidos}}</td>
+                    <td class="fs-4">{{item?.nombre_solicitud}}</td>
+                    <td class="fs-4">{{item?.asignado?.nombre}} {{item?.asignado?.apellidos}}</td>
+                    <td class="fs-4">
+                        <button type="button" ngbTooltip="Ver Anexo" (click)="eliminar(item.id)"
+                            class="btn w-sm btn-sm btn-outline-success"><i class="fa-solid fa-eye"></i>
+                        </button>
+                    </td>
+                    <td class="fs-4">
+                        <button type="button" ngbTooltip=" Ver Descripcion del Requerimiento"
+                            (click)="eliminar(item.id)" class="btn w-sm btn-sm btn-outline-success"><i
+                                class="fa-solid fa-eye"></i>
+                        </button>
+                    </td>
+                    <td class="fs-4">
+                        <button *ngIf="item.estado === 'PENDIENTE_SOLICITUD'" type="button"
+                            class="btn d-flex btn-light-danger d-block text-danger font-medium">
+                            PENDIENTE DE ASIGNACION
+                        </button>
+                        <button *ngIf="item.estado === 'ASIGNADO_ANALISTA'" type="button"
+                            class="btn d-flex btn-light-success d-block text-success font-medium">
+                            ASIGNADA AL ANALISTA
+                        </button>
+                        <button *ngIf="item.estado === 'PENDIENTE_APROBACION'" type="button"
+                            class="btn d-flex btn-light-info d-block text-info font-medium">
+                            PENDIENTE DE APROBACIÒN
+                        </button>
+                        <button *ngIf="item.estado === 'APROBADO'" type="button"
+                            class="btn d-flex btn-light-primary d-block text-primary font-medium">
+                            APROBADO
+                        </button>
+                        <button *ngIf="item.estado === 'RECHAZADO'" type="button"
+                            class="btn d-flex btn-light-danger d-block text-danger font-medium">
+                            RECHAZADO
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" ngbTooltip="Actualizar Requerimiento" [disabled]="item.estado !== 'PENDIENTE_SOLICITUD'" (click)="edit(item.requerimiento_id)"
+                            class="btn btn-outline-success w-sm btn-sm">
+                            <span><i class="fas fa-edit"></i></span>
+                        </button>
+                        <button type="button" ngbTooltip="Eliminar Requerimiento" [disabled]="item.estado === 'ASIGNADO_ANALISTA'" (click)="eliminar(item.requerimiento_id)"
+                            class="btn w-sm btn-sm btn-outline-danger" style="margin-left: 5px">
+                            <span><i class="fas fa-trash"></i></span>
+                        </button>
+                        <button type="button" ngbTooltip="Asignar Analista" [disabled]="item.estado === 'ASIGNADO_ANALISTA'" (click)="asignarAnalista(item)"
+                            class="btn w-sm btn-sm btn-outline-info" style="margin-left: 5px">
+                            <span><i class="fas fa-trash"></i></span>
+                        </button>
+                    </td>
+                </tr>
+
+            </ng-container>
+        </tbody>
+    </table>
+    <!-- <app-pagination [totalItems]="totalElements" [pageSize]="pageSize" [currentPage]="pageNumber"
+        (pageChange)="onPageChange($event)">
+    </app-pagination> -->
+</div>

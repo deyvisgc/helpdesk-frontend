@@ -1,0 +1,285 @@
+<div class="modal-header" *ngIf="titulo">
+    <h4 class="modal-title" id="modal-basic-title">{{titulo}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="getDismissReason(0)"></button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="formGrupProposal" class="space-y-3" *ngIf="!verEpica && !verHistoria">
+        <div class="container mt-1">
+            <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                    <button ngbNavLink>Informacion Propuesta</button>
+                    <ng-template ngbNavContent>
+                        <div class="row">
+                            <div class="col-md-6 mb-6 mt-3">
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Analista TI</label>
+                                    <div class="custom-dropdown-container">
+                                        <ng-select
+                                            [ngClass]="{ 'is-invalid': submitted() && formGrupProposal.get('analistaId')?.invalid }"
+                                            [items]="lsAnalista" bindLabel="nombre" formControlName="analistaId"
+                                            placeholder="Seleccionar Analista" bindValue="usuarioId"
+                                            (change)="onchangeRequirement($event)">
+                                            <ng-template ng-label-tmp let-item="item">
+                                                {{ item.nombre && item.apellidos ? item.nombre + ' ' + item.apellidos :
+                                                '' }}
+                                            </ng-template>
+                                            <ng-template ng-option-tmp let-item="item">
+                                                {{ item.nombre + ' ' + item.apellidos }}
+                                            </ng-template>
+                                        </ng-select>
+                                        <div *ngIf="submitted() && formGrupProposal.get('analistaId')?.invalid"
+                                            class="invalid-feedback">
+                                            <div *ngIf="formGrupProposal.get('analistaId')?.invalid">El Analista es
+                                                requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-6 mt-3">
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Requerimientos</label>
+                                    <div class="custom-dropdown-container">
+                                        <ng-select
+                                            [ngClass]="{ 'is-invalid': submitted() && formGrupProposal.get('requerimientoId')?.invalid }"
+                                            [items]="lsRequirement" bindLabel="nombre_solicitud"
+                                            formControlName="requerimientoId" placeholder="Seleccionar Requerimiento"
+                                            bindValue="requerimiento_id">
+                                        </ng-select>
+                                        <div *ngIf="submitted() && formGrupProposal.get('requerimientoId')?.invalid"
+                                            class="invalid-feedback">
+                                            <div *ngIf="formGrupProposal.get('requerimientoId')?.invalid">Requerimiento
+                                                es requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4 mt-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName">Titulo Propuesta</label>
+                                    <input type="text" formControlName="textoPropuesta" class="form-control" id="nombre"
+                                        [ngClass]="{ 'is-invalid': submitted() && formGrupProposal.get('textoPropuesta')?.invalid }" />
+                                    <div *ngIf="submitted() && formGrupProposal.get('textoPropuesta')?.invalid"
+                                        class="invalid-feedback">
+                                        <div *ngIf="formGrupProposal.get('textoPropuesta')?.invalid">Titulo es requerido
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4 mt-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName">Tiempo Estimado</label>
+                                    <input type="text" formControlName="estimacionTiempo" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted() && formGrupProposal.get('estimacionTiempo')?.invalid }" />
+                                    <div *ngIf="submitted() && formGrupProposal.get('estimacionTiempo')?.invalid"
+                                        class="invalid-feedback">
+                                        <div *ngIf="formGrupProposal.get('estimacionTiempo')?.invalid">Tiempo estimado
+                                            es requerido
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4 mt-3">
+                                <div class="form-group">
+                                    <label for="exampleInputName">Total Programadores</label>
+                                    <input type="text" appNumberOnly class="form-control"
+                                        formControlName="numeroProgramadores" class="form-control"
+                                        [ngClass]="{ 'is-invalid': submitted() && f.controls['numeroProgramadores'].errors }" />
+                                    <div *ngIf="submitted() && f.controls['numeroProgramadores'].errors"
+                                        class="invalid-feedback">
+                                        <div *ngIf="f.controls['numeroProgramadores'].errors?.['required']">Total
+                                            programadores es requerido
+                                        </div>
+                                        <div *ngIf="f.controls['numeroProgramadores'].errors?.['min']"
+                                            class="invalid-feedback">
+                                            El número de programadores debe ser al menos 1.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                    <button ngbNavLink>Historias de Usuario</button>
+                    <ng-template ngbNavContent>
+                        <button type="button" class="btn btn-outline-success" (click)="agregarHistory()">Agregar
+                            Historia</button>
+                        <div formArrayName="historiaUsers" [ngClass]="(historiaUsers.length < 5)  ? '' : 'scroll-form'">
+                            <div class="container">
+                                <div *ngFor="let subCate of historiaUsers.controls; let i = index" [formGroupName]="i">
+                                    <ng-container *ngIf="subCate as propuestaFormGroup">
+                                        <div class="row d-flex justify-content-around">
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-group">
+                                                    <label for="inputNombre">Titulo</label>
+                                                    <input type="text" class="form-control text-uppercase"
+                                                        formControlName="titulo" id="inputNombre"
+                                                        [ngClass]="{ 'is-invalid': submitted() && propuestaFormGroup.get('titulo')?.invalid }" />
+                                                    <div *ngIf="submitted() && propuestaFormGroup.get('titulo')?.invalid"
+                                                        class="invalid-feedback">
+                                                        <div
+                                                            *ngIf="propuestaFormGroup.get('titulo')?.hasError('required')">
+                                                            Titulo es requerido</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlTextarea1">Descripciòn</label>
+                                                    <textarea
+                                                        [ngClass]="{ 'is-invalid': submitted() && propuestaFormGroup.get('descripcion')?.invalid }"
+                                                        formControlName="descripcion" class="form-control"
+                                                        id="exampleFormControlTextarea1" rows="2"></textarea>
+                                                    <div *ngIf="submitted() && propuestaFormGroup.get('descripcion')?.invalid"
+                                                        class="invalid-feedback">
+                                                        <div
+                                                            *ngIf="propuestaFormGroup.get('descripcion')?.hasError('required')">
+                                                            Descripcion es requerido
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="form-group">
+                                                    <label for="exampleInputPassword1">Prioridad</label>
+                                                    <div class="custom-dropdown-container">
+                                                        <ng-select
+                                                            [ngClass]="{ 'is-invalid': submitted() && propuestaFormGroup.get('prioridad')?.invalid }"
+                                                            [items]="prioridad" bindLabel="pr_name"
+                                                            formControlName="prioridad"
+                                                            placeholder="Seleccionar Categoria" bindValue="id">
+                                                        </ng-select>
+                                                        <div *ngIf="submitted() && propuestaFormGroup.get('prioridad')?.invalid"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="propuestaFormGroup.get('prioridad')?.invalid">
+                                                                Prioridad es requerido</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <button type="button" (click)="eliminar(i)"
+                                                        class="btn w-sm btn-sm btn-outline-danger"
+                                                        style="margin-top: 25px">
+                                                        <span><i class="fas fa-trash"></i></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="3">
+                    <button ngbNavLink>Epicas</button>
+                    <ng-template ngbNavContent>
+                        <button type="button" class="btn btn-outline-success" (click)="agregarEpicas()">Agregar
+                            Epicas</button>
+                        <div formArrayName="epicas" [ngClass]="(epicas.length < 5)  ? '' : 'scroll-form'">
+                            <div class="container">
+                                <div *ngFor="let epic of epicas.controls; let i = index" [formGroupName]="i">
+                                    <ng-container *ngIf="epic as propuestaFormGroup">
+                                        <div class="row d-flex justify-content-around">
+                                            <div class="col-md-5 mb-3">
+                                                <div class="form-group">
+                                                    <label for="inputNombre">Titulo</label>
+                                                    <input type="text" class="form-control text-uppercase"
+                                                        formControlName="titulo" id="inputNombre"
+                                                        [ngClass]="{ 'is-invalid': submitted() && propuestaFormGroup.get('titulo')?.invalid }" />
+                                                    <div *ngIf="submitted() && propuestaFormGroup.get('titulo')?.invalid"
+                                                        class="invalid-feedback">
+                                                        <div
+                                                            *ngIf="propuestaFormGroup.get('titulo')?.hasError('required')">
+                                                            Titulo es requerido</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5 mb-3">
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlTextarea1">Descripciòn</label>
+                                                    <textarea
+                                                        [ngClass]="{ 'is-invalid': submitted() && propuestaFormGroup.get('descripcion')?.invalid }"
+                                                        formControlName="descripcion" class="form-control"
+                                                        id="exampleFormControlTextarea1" rows="2"></textarea>
+                                                    <div *ngIf="submitted() && propuestaFormGroup.get('descripcion')?.invalid"
+                                                        class="invalid-feedback">
+                                                        <div
+                                                            *ngIf="propuestaFormGroup.get('descripcion')?.hasError('required')">
+                                                            Descripcion es requerido
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <button type="button" (click)="eliminarEpica(i)"
+                                                        class="btn w-sm btn-sm btn-outline-danger"
+                                                        style="margin-top: 25px">
+                                                        <span><i class="fas fa-trash"></i></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </li>
+            </ul>
+
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+        <p></p>
+    </form>
+    <div class="modal-footer" style="position: static;"  *ngIf="!verEpica && !verHistoria">
+        <button type="submit" class="btn btn-outline-info" (click)="guardar()">
+            <span *ngIf="!isLoading()"> Guardar</span>
+            <i *ngIf="isLoading()" class="fas fa-spinner fa-pulse fa-1x"></i>
+        </button>
+    </div>
+
+    <table class="table table-striped" *ngIf="verEpica">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Descripciòn</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr *ngFor="let item of lsEpica; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ item.titulo }}</td>
+                <td>{{ item.descripcion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-striped" *ngIf="verHistoria">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Titulo</th>
+                <th scope="col">Descripciòn</th>
+                <th scope="col">Prioridad</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr *ngFor="let item of lsHistoriUsers; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ item.titulo }}</td>
+                <td>{{ item.descripcion }}</td>
+                <td>{{ item.prioridad }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
