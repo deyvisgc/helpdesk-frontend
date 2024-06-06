@@ -109,6 +109,11 @@
                         <div class="custom-dropdown-container">
                             <ng-select [ngClass]="{ 'is-invalid': submitted() && formGrupAsignarRequeriment.get('asignadoId')?.invalid }"
                                 [items]="lsAnalista" bindLabel="nombre" formControlName="asignadoId" placeholder="Seleccionar Analista" bindValue="usuarioId">
+                                
+                                <ng-template ng-label-tmp let-item="item">
+                                    {{ item.nombre && item.apellidos ? item.nombre + ' ' + item.apellidos :
+                                    '' }}
+                                </ng-template>
                                 <ng-template ng-option-tmp let-item="item">
                                     {{ item.nombre + ' ' + item.apellidos }}
                                 </ng-template>

@@ -22,7 +22,7 @@
                     <td class="fs-4">{{item?.asignado?.nombre}} {{item?.asignado?.apellidos}}</td>
                     <td class="fs-4">
                         <button type="button" [ngbTooltip]="item.descripcion" ngbTooltip=""
-                            (click)="eliminar(item.id)" class="btn w-sm btn-sm btn-outline-success"><i
+                           class="btn w-sm btn-sm btn-outline-success"><i
                                 class="fa-solid fa-eye"></i>
                         </button>
                     </td>
@@ -59,7 +59,7 @@
                         </button>
                         <button type="button" ngbTooltip="Asignar Analista" [disabled]="item.estado === 'ASIGNADO_ANALISTA'" (click)="asignarAnalista(item)"
                             class="btn w-sm btn-sm btn-outline-info" style="margin-left: 5px">
-                            <span><i class="fas fa-trash"></i></span>
+                            <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </td>
                 </tr>
