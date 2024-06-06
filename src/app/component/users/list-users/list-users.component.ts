@@ -1,28 +1,29 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Requirement } from 'src/app/core/interface/requiriments';
+import { Usuario } from 'src/app/core/interface/requiriments';
 import { NotificationService } from 'src/app/core/service/notification.service';
-import { RequirementService } from 'src/app/core/service/requerimiento.service';
+import { UsuarioService } from 'src/app/core/service/usuario.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-list-requerimient',
-  templateUrl: './list-requerimient.component.html',
-  styleUrls: ['./list-requerimient.component.scss']
+  selector: 'app-list-users',
+  templateUrl: './list-users.component.html',
+  styleUrls: ['./list-users.component.scss']
 })
-export class ListRequerimientComponent {
- @Output() update: EventEmitter<Object> = new EventEmitter<Object>();
+export class ListUsersComponent {
+  @Output() update: EventEmitter<Object> = new EventEmitter<Object>();
+  isCollapsed = true;
   textSearch: string = ''
-  list: Requirement[] = []
-  constructor(private requerimentService: RequirementService,    private totastService: NotificationService) {
+  list: Usuario[] = []
+  constructor(private usuarioService: UsuarioService, private totastService: NotificationService) {
   }
   ngOnInit(): void {
     this.listar();
     this.obserbableOpertator()
   }
   listar() {
-    this.requerimentService.get()
+    this.usuarioService.get()
     .subscribe({
-      next: (res: Requirement[]) => {
+      next: (res: Usuario[]) => {
         this.list = res
       },
       error:(error: any) => {
@@ -32,8 +33,8 @@ export class ListRequerimientComponent {
   
   }
   edit(id: number) {
-    this.requerimentService.getById(id).subscribe({
-      next: (res: Requirement) => {
+    this.usuarioService.getById(id).subscribe({
+      next: (res: Usuario) => {
         const response  = {
           opcion: 'edit',
           data: res
@@ -45,15 +46,8 @@ export class ListRequerimientComponent {
       },
     });
   }
-  asignarAnalista (item: Requirement) {
-    const response  = {
-      opcion: 'asignar',
-      data: item
-    }
-    this.update.emit(response)
-  }
   obserbableOpertator() {
-    this.requerimentService.isRegisterOrUpdate$.subscribe({
+    this.usuarioService.isRegisterOrUpdate$.subscribe({
       next: (res: boolean) => {
         if (res) this.listar();
       }
@@ -69,7 +63,7 @@ export class ListRequerimientComponent {
     });
     swalWithBootstrapButtons
       .fire({
-        title: 'Seguro de Eliminar Este Requerimiento?',
+        title: 'Seguro de Eliminar Este Usuario?',
         text: `¡No podrás revertir esto!`,
         icon: 'warning',
         confirmButtonText: `Si, Eliminar!`,
@@ -78,7 +72,7 @@ export class ListRequerimientComponent {
       })
       .then((result) => {
         if (result.value) {
-          this.requerimentService.delete(id).subscribe({
+          this.usuarioService.delete(id).subscribe({
             next: (res: any) => {
               this.totastService.success(res?.message);
             },

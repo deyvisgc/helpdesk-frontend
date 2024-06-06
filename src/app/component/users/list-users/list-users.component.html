@@ -1,0 +1,37 @@
+<div class="d-flex justify-content-between" style="margin-top: 50px;">
+    <div class="form-group">
+        <input type="text" class="form-control" [(ngModel)]="textSearch" id="name" placeholder="Buscar" />
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table align-middle text-nowrap">
+        <thead>
+            <tr>
+                <th class="text-dark font-medium fs-4">Nombre</th>
+                <th class="text-dark font-medium fs-4">Area</th>
+                <th class="text-dark font-medium fs-4">Rol</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngIf=" list| search : textSearch as result">
+                <tr *ngFor="let item of result | search:textSearch; let i = index">
+                    <td class="fs-4">{{item?.nombre}} {{item?.apellidos}}</td>
+                    <td class="fs-4">{{item?.area}}</td>
+                    <td class="fs-4">{{item?.rol}}</td>
+                    <td class="fs-4">
+                        <button type="button" ngbTooltip="Actualizar Usuario" (click)="edit(item.usuarioId)"
+                            class="btn btn-outline-success w-sm btn-sm">
+                            <span><i class="fas fa-edit"></i></span>
+                        </button>
+                        <button type="button" ngbTooltip="Eliminar Usuario" (click)="eliminar(item.usuarioId)"
+                            class="btn w-sm btn-sm btn-outline-danger" style="margin-left: 5px">
+                            <span><i class="fas fa-trash"></i></span>
+                        </button>
+                    </td>
+
+                </tr>
+
+            </ng-container>
+        </tbody>
+    </table>
+</div>

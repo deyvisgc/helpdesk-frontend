@@ -36,7 +36,7 @@
                             <ng-select
                                 [ngClass]="{ 'is-invalid': submitted() && formGrupRequeriment.get('area')?.invalid }"
                                 [items]="area" bindLabel="area_name" formControlName="area"
-                                placeholder="Seleccionar Categoria" bindValue="area_name">
+                                placeholder="Seleccionar Area" bindValue="area_name">
                             </ng-select>
                             <div *ngIf="submitted() && formGrupRequeriment.get('area')?.invalid"
                                 class="invalid-feedback">

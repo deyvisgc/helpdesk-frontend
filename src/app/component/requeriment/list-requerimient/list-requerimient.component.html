@@ -10,7 +10,6 @@
                 <th class="text-dark font-medium fs-4">Solicitante</th>
                 <th class="text-dark font-medium fs-4">Nombre Solicitud</th>
                 <th class="text-dark font-medium fs-4">Analista Asignado</th>
-                <th class="text-dark font-medium fs-4">Anexo</th>
                 <th class="text-dark font-medium fs-4">Descripciòn</th>
                 <th class="text-dark font-medium fs-4">Estado</th>
             </tr>
@@ -22,12 +21,7 @@
                     <td class="fs-4">{{item?.nombre_solicitud}}</td>
                     <td class="fs-4">{{item?.asignado?.nombre}} {{item?.asignado?.apellidos}}</td>
                     <td class="fs-4">
-                        <button type="button" ngbTooltip="Ver Anexo" (click)="eliminar(item.id)"
-                            class="btn w-sm btn-sm btn-outline-success"><i class="fa-solid fa-eye"></i>
-                        </button>
-                    </td>
-                    <td class="fs-4">
-                        <button type="button" ngbTooltip=" Ver Descripcion del Requerimiento"
+                        <button type="button" [ngbTooltip]="item.descripcion" ngbTooltip=""
                             (click)="eliminar(item.id)" class="btn w-sm btn-sm btn-outline-success"><i
                                 class="fa-solid fa-eye"></i>
                         </button>

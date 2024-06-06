@@ -16,6 +16,8 @@ import { ComponentModule } from '../component/component.module';
 import { RequerimientComponent } from './requerimient/requerimient.component';
 import { AyudaComponent } from './ayuda/ayuda.component';
 import { PropuestaComponent } from './propuesta/propuesta.component';
+import { InicioComponent } from './inicio/inicio.component';
+import { UsersComponent } from './users/users.component';
 const routes: Routes = [
   {
     path: 'requerimients',
@@ -28,6 +30,14 @@ const routes: Routes = [
   {
     path: 'proposal',
     component: PropuestaComponent,
+  },
+  {
+    path: 'inicio',
+    component: InicioComponent,
+  },
+  {
+    path: 'admin',
+    component: UsersComponent,
   },
 ];
 @NgModule({
@@ -52,6 +62,8 @@ const routes: Routes = [
     RequerimientComponent,
     AyudaComponent,
     PropuestaComponent,
+    InicioComponent,
+    UsersComponent,
   ],
   exports: [
     RequerimientComponent,

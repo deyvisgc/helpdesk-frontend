@@ -55,5 +55,9 @@ export class RequirementService {
   getRequerimentByAnlyt(id: number): Observable<Requirement[]> {
     return this.http.get<Requirement[]>(UriConstante.REQUERIMENT_RESOURCE + `/analista/${id}`);
   }
+  getTotales() {
+    return this.http.get<Requirement[]>(UriConstante.REQUERIMENT_RESOURCE + `/report`);
+
+  }
 
 }

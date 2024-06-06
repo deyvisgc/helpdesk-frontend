@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "monster-angular-lite": {
+    "Heslpdek-peru": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -21,7 +21,7 @@
               "ng-apexcharts",
               "apexcharts"
             ],
-            "outputPath": "dist/monster-angular-lite",
+            "outputPath": "dist/Heslpdek-peru",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -70,10 +70,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "monster-angular-lite:build:production"
+              "browserTarget": "Heslpdek-peru:build:production"
             },
             "development": {
-              "browserTarget": "monster-angular-lite:build:development"
+              "browserTarget": "Heslpdek-peru:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -81,7 +81,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "monster-angular-lite:build"
+            "browserTarget": "Heslpdek-peru:build"
           }
         },
         "test": {

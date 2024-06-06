@@ -1,0 +1,76 @@
+<div class="modal-header" *ngIf="titulo">
+    <h4 class="modal-title" id="modal-basic-title">{{titulo}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="getDismissReason(0)"></button>
+</div>
+<div class="modal-body" *ngIf="titulo">
+    <form [formGroup]="formGrupUsers" (ngSubmit)="onSubmit()" class="space-y-3">
+        <div class="container mt-1">
+            <div class="row">
+                <div class="col-md-6 mb-6 mt-3">
+                    <div class="form-group">
+                        <label for="exampleInputName">Nombre</label>
+                        <input type="text" formControlName="nombre" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted() && f.controls['nombre'].errors }" id="nombre" />
+                        <div *ngIf="submitted() && f.controls['nombre'].errors" class="invalid-feedback">
+                            <div *ngIf="f.controls['nombre'].errors?.['required']">Nombre solicitante es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-6 mt-3">
+                    <div class="form-group">
+                        <label for="exampleInputName">Apellido</label>
+                        <input type="text" formControlName="apellidos" class="form-control"
+                            [ngClass]="{ 'is-invalid': submitted() && f.controls['apellidos'].errors }"
+                            id="apellidos" />
+                        <div *ngIf="submitted() && f.controls['apellidos'].errors" class="invalid-feedback">
+                            <div *ngIf="f.controls['apellidos'].errors?.['required']">Apellido solicitante es requerido
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-6 mt-3">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Area</label>
+                        <div class="custom-dropdown-container">
+                            <ng-select
+                                [ngClass]="{ 'is-invalid': submitted() && formGrupUsers.get('area')?.invalid }"
+                                [items]="area" bindLabel="area_name" formControlName="area"
+                                placeholder="Seleccionar Area" bindValue="area_name">
+                            </ng-select>
+                            <div *ngIf="submitted() && formGrupUsers.get('area')?.invalid"
+                                class="invalid-feedback">
+                                <div *ngIf="formGrupUsers.get('area')?.invalid">Area es requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-6 mt-3">
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Role</label>
+                        <div class="custom-dropdown-container">
+                            <ng-select
+                                [ngClass]="{ 'is-invalid': submitted() && formGrupUsers.get('rol')?.invalid }"
+                                [items]="role" bindLabel="role_name" formControlName="rol"
+                                placeholder="Seleccionar Rol" bindValue="role_name">
+                            </ng-select>
+                            <div *ngIf="submitted() && formGrupUsers.get('rol')?.invalid"
+                                class="invalid-feedback">
+                                <div *ngIf="formGrupUsers.get('rol')?.invalid">Rol es requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div class="form-group d-flex justify-content-end">
+            <button type="submit" class="btn btn-outline-info rounded">
+                <span *ngIf="!isLoading()">Guardar</span>
+                <i *ngIf="isLoading()" class="fas fa-spinner fa-pulse fa-2x"></i>
+            </button>
+        </div>
+    </form>
+</div>

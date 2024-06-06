@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { UriConstante } from 'src/app/util/UriConstante';
 import { ResponseMessage } from '../interface/message.response';
-import { Requirement, Usuario } from '../interface/requiriments';
+import { Usuario } from '../interface/requiriments';
 
 @Injectable({
   providedIn: 'root',
@@ -11,36 +11,26 @@ import { Requirement, Usuario } from '../interface/requiriments';
 export class UsuarioService {
    isRegisterOrUpdate$: Subject<boolean> = new Subject<boolean>();
   constructor(private http: HttpClient) {}
-  getById(id: number): Observable<Requirement> {
-    return this.http.get<Requirement>(UriConstante.REQUERIMENT_RESOURCE + `/${id}`);
+  getById(id: number): Observable<Usuario> {
+    return this.http.get<Usuario>(UriConstante.USUARIO_RESOURCE + `/${id}`);
   }
-  register(datosJson: string, file: File): Observable<ResponseMessage> {
-    const formData: FormData = new FormData();
-    formData.append('datos', datosJson);
-    formData.append('file', file);
-    
-    return this.http.post<ResponseMessage>(UriConstante.REQUERIMENT_RESOURCE, formData);
+  register(users: Usuario): Observable<ResponseMessage> {
+    return this.http.post<ResponseMessage>(UriConstante.USUARIO_RESOURCE, users);
   }
-  update(idRequerimiento: string, idUsuario: string, datosJson: string, file: File | null): Observable<ResponseMessage> {
-    const formData: FormData = new FormData();
-    formData.append('datos', datosJson);
-    formData.append('file', file ? file : '');
-    formData.append('idUsuario', idUsuario);
-    formData.append('idRequerimiento', idRequerimiento);
-
+  update(idUsuario: number, users: Usuario): Observable<ResponseMessage> {
     return this.http.put<ResponseMessage>(
-      `${UriConstante.REQUERIMENT_RESOURCE}`,
-      formData
+      `${UriConstante.USUARIO_RESOURCE}/${idUsuario}`,
+      users
     );
   }
   delete(id: number) {
-    return this.http.delete<ResponseMessage>(UriConstante.REQUERIMENT_RESOURCE + `/${id}`);
+    return this.http.delete<ResponseMessage>(UriConstante.USUARIO_RESOURCE + `/${id}`);
   }
   saveStatus(status: boolean) {
     this.isRegisterOrUpdate$.next(status);
   }
-  get(): Observable<Requirement[]> {
-    return this.http.get<Requirement[]>(UriConstante.REQUERIMENT_RESOURCE);
+  get(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(UriConstante.USUARIO_RESOURCE);
   }
   getAsignar() {
     return this.http.get<Usuario[]>(UriConstante.USUARIO_RESOURCE + "/it-analyst");

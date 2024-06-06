@@ -11,6 +11,8 @@ import { FormRequerimientComponent } from './requeriment/form-requerimient/form-
 import { FormProposalComponent } from './proposal/form-proposal/form-proposal.component';
 import { ListProposalComponent } from './proposal/list-proposal/list-proposal.component';
 import { DescripconcomponentComponent } from './ayuda/descripconcomponent/descripconcomponent.component';
+import { ListUsersComponent } from './users/list-users/list-users.component';
+import { FormUsersComponent } from './users/form-users/form-users.component';
 @NgModule({
   declarations: [
     PaginationComponent,
@@ -18,7 +20,9 @@ import { DescripconcomponentComponent } from './ayuda/descripconcomponent/descri
     FormRequerimientComponent,
     FormProposalComponent,
     ListProposalComponent,
-    DescripconcomponentComponent
+    DescripconcomponentComponent,
+    ListUsersComponent,
+    FormUsersComponent
   ],
   imports: [
     CommonModule,
@@ -43,7 +47,9 @@ import { DescripconcomponentComponent } from './ayuda/descripconcomponent/descri
     FormRequerimientComponent,
     FormProposalComponent,
     ListProposalComponent,
-    DescripconcomponentComponent
+    DescripconcomponentComponent,
+    ListUsersComponent,
+    FormUsersComponent
   ],
 })
 export class ComponentModule { }

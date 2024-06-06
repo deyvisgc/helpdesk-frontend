@@ -1,0 +1,59 @@
+<!-- Contenido Principal -->
+<div class="container mt-5">
+    <!-- Sección de Introducción -->
+    <div class="jumbotron">
+        <h1 class="display-4">Bienvenido al Sistema Helpdesk</h1>
+        <p class="lead">Gestiona y da seguimiento a los requerimientos de tu organización de manera eficiente.</p>
+        <hr class="my-4">
+        <p>Utiliza las herramientas disponibles para crear y dar seguimiento a los requerimientos, ver estadísticas y mucho más.</p>
+    </div>
+
+    <!-- Sección de Estadísticas -->
+    <div class="row text-center">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Requerimientos Totales</h5>
+                    <p class="card-text">{{lstotales.totalRequerimiento}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Propuestas</h5>
+                    <p class="card-text">{{lstotales.totalPropuestas}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Requerimientos Pendientes</h5>
+                    <p class="card-text">{{lstotales.totalRequerimientoPendientes}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Requerimientos Aprobados</h5>
+                    <p class="card-text">{{lstotales.totalRequerimientoAprobados}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Accesos Rápidos -->
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <a routerLink="/pages/requerimients" class="btn btn-outline-secondary btn-block">Ver Mis Requerimientos</a>
+        </div>
+        <div class="col-md-4">
+            <a routerLink="/pages/proposal" class="btn btn-outline-secondary btn-block">Ver Mis Propuestas</a>
+        </div>
+        <div class="col-md-4">
+            <a routerLink="/pages/admin" class="btn btn-outline-secondary btn-block">Ver Mis Usuarios</a>
+        </div>
+    </div>
+</div>
